@@ -1,0 +1,28 @@
+{
+  "name": "mcp-server-boilerplate",
+  "version": "0.1.0",
+  "description": "GitHub template for building an MCP server: end-to-end tests against a real client, tag-to-npm release workflow, add a tool by adding one file.",
+  "type": "module",
+  "bin": { "mcp-server-boilerplate": "dist/index.js" },
+  "main": "dist/index.js",
+  "files": ["dist", "README.md", "LICENSE"],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js",
+    "test": "node --test test/*.test.js",
+    "inspect": "npx @modelcontextprotocol/inspector node dist/index.js",
+    "rename": "node scripts/rename.mjs"
+  },
+  "keywords": ["mcp", "model-context-protocol", "claude", "boilerplate", "template", "server"],
+  "license": "MIT",
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "zod": "^4.5.4"
+  },
+  "devDependencies": {
+    "@types/node": "^26.4.0",
+    "typescript": "^7.0.2"
+  }
+}
