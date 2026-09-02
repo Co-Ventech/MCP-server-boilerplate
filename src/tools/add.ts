@@ -1,13 +1,31 @@
-import { z } from "zod";
-import type { ToolDefinition } from "./index.js";
+import { McpServer } from "@modelcontextprotocol/server";
+import * as z from "zod/v4";
 
-export const add: ToolDefinition = {
-  name: "add",
-  title: "Add",
-  description: "Adds two numbers. Shows the pattern for zod number validation.",
-  inputSchema: {
-    a: z.number().describe("First number"),
-    b: z.number().describe("Second number"),
-  },
-  handler: async ({ a, b }) => ({ content: [{ type: "text", text: String(a + b) }] }),
-};
+const addInput = z.object({
+  a: z.number().describe("First number"),
+  b: z.number().describe("Second number"),
+});
+
+const addOutput = z.object({
+  sum: z.number(),
+});
+
+export function registerAddTool(server: McpServer): void {
+  server.registerTool(
+    "add",
+    {
+      title: "Add",
+      description: "Adds two numbers. Shows v2 Zod validation and structured output.",
+      inputSchema: addInput,
+      outputSchema: addOutput,
+      annotations: { readOnlyHint: true, idempotentHint: true },
+    },
+    async ({ a, b }) => {
+      const sum = a + b;
+      return {
+        structuredContent: { sum },
+        content: [{ type: "text", text: String(sum) }],
+      };
+    },
+  );
+}
